@@ -415,7 +415,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 <div align="center">
 
-**Built with ❤️ using FastAPI, React, and Google Gemini**
+**Built with using FastAPI, React, and Google Gemini**
 
 *Technoax — Trust, but verify.*
 
