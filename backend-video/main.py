@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 from api.analyze_video import router as analyze_router
 from api.frame_analysis import router as frame_router
 from api.media_risk_score import router as risk_router

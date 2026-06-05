@@ -18,7 +18,7 @@ function RiskBadge({ score }: { score: number }) {
   if (score >= 70)
     return (
       <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 border border-red-200 px-3 py-1 text-xs font-semibold text-red-700">
-        <ShieldAlert size={12} /> High Risk
+        <ShieldAlert size={12} /> AI-Generated
       </span>
     );
   if (score >= 40)
@@ -227,16 +227,18 @@ export function UploadCenter() {
                   {/* Header */}
                   <div className="flex items-center justify-between">
                     <h4 className="text-sm font-semibold">Analysis Results</h4>
-                    <RiskBadge score={result.risk_score} />
+                    <RiskBadge score={result.deepfake_probability ?? result.risk_score} />
                   </div>
 
                   {/* Quick stat tiles */}
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 text-center">
                     <div className="rounded-lg border border-border bg-card/60 p-3">
                       <div className="text-2xl font-semibold text-foreground">
-                        {result.risk_score}
+                        {result.deepfake_probability != null
+                          ? `${result.deepfake_probability}%`
+                          : `${result.risk_score}%`}
                       </div>
-                      <div className="mt-0.5 text-xs text-muted-foreground">Risk Score</div>
+                      <div className="mt-0.5 text-xs text-muted-foreground">AI Probability</div>
                     </div>
                     <div className="rounded-lg border border-border bg-card/60 p-3">
                       <div className="text-2xl font-semibold text-foreground">
@@ -264,29 +266,36 @@ export function UploadCenter() {
                     )}
                   </div>
 
-                  {/* Risk bar */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>Risk Level — <span className="font-medium text-foreground">{result.risk_level}</span></span>
-                      <span>{result.risk_score} / 100</span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-muted">
-                      <motion.div
-                        className="h-full rounded-full"
-                        style={{
-                          background:
-                            result.risk_score >= 70
-                              ? "linear-gradient(90deg, #f87171, #dc2626)"
-                              : result.risk_score >= 40
-                              ? "linear-gradient(90deg, #fbbf24, #d97706)"
-                              : "linear-gradient(90deg, #4ade80, #16a34a)",
-                        }}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${result.risk_score}%` }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                      />
-                    </div>
-                  </div>
+                  {/* AI Probability bar */}
+                  {(() => {
+                    const pct = result.deepfake_probability ?? result.risk_score;
+                    return (
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between text-xs text-muted-foreground">
+                          <span>AI Probability — <span className="font-medium text-foreground">
+                            {pct >= 70 ? "High" : pct >= 40 ? "Medium" : "Low"}
+                          </span></span>
+                          <span>{pct}%</span>
+                        </div>
+                        <div className="h-2 overflow-hidden rounded-full bg-muted">
+                          <motion.div
+                            className="h-full rounded-full"
+                            style={{
+                              background:
+                                pct >= 70
+                                  ? "linear-gradient(90deg, #f87171, #dc2626)"
+                                  : pct >= 40
+                                  ? "linear-gradient(90deg, #fbbf24, #d97706)"
+                                  : "linear-gradient(90deg, #4ade80, #16a34a)",
+                            }}
+                            initial={{ width: 0 }}
+                            animate={{ width: `${pct}%` }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                   {/* Frame-level analysis details (embedded in same response) */}
                   {(result.faces_detected != null ||
