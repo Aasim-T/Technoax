@@ -1,0 +1,28 @@
+{
+  "name": "technoax-fullstack",
+  "version": "1.0.0",
+  "description": "Technoax - AI Media Intelligence & Deepfake Detection (Full Stack)",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend-text\" \"npm run dev:backend-video\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend-text": "cd backend-text && python -m uvicorn main:app --reload --port 8000",
+    "dev:backend-video": "cd backend-video && python -m uvicorn main:app --reload --port 8001",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "echo 'Backend is Python - no build needed'",
+    "build": "npm run build:frontend && npm run build:backend",
+    "lint": "cd frontend && npm run lint",
+    "format": "cd frontend && npm run format",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend-text && pip install -r requirements.txt && cd ../backend-video && pip install -r requirements.txt"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "deepfake",
+    "detection",
+    "media",
+    "intelligence",
+    "ai"
+  ]
+}

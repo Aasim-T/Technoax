@@ -1,0 +1,19 @@
+# Technoax backend dependencies
+# Gemini: use ONLY google-genai (do NOT install google-generativeai)
+
+fastapi>=0.115.0,<1.0.0
+uvicorn[standard]>=0.32.0,<1.0.0
+pydantic>=2.9.0,<3.0.0
+pydantic-settings>=2.6.0,<3.0.0
+google-genai>=1.0.0,<2.0.0
+python-dotenv>=1.0.0,<2.0.0
+
+# ── Audio Authenticity Intelligence Engine ──────────────────────────────────
+# Speech-to-text (offline, fast CPU inference)
+faster-whisper>=1.0.0,<2.0.0
+# Audio feature extraction
+librosa>=0.10.0,<1.0.0
+numpy>=1.24.0,<3.0.0
+soundfile>=0.12.0,<1.0.0
+# Multipart file upload support for FastAPI
+python-multipart>=0.0.9,<1.0.0

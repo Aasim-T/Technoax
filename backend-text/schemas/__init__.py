@@ -1,0 +1,1 @@
+"""Technoax API schemas package."""
